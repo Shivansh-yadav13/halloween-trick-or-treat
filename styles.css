@@ -1,8 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-
 body {
     margin: 0;
-    font-family: 'VT323', monospace;
     background-image: linear-gradient(to bottom, black, rgb(63, 0, 63));
 }
 
@@ -20,6 +17,4 @@ canvas {
     transform: translateX(-50%);
     width: 40rem;
     height: 20rem;
-    stroke: chartreuse;
-    stroke-width: 5rem;
 }

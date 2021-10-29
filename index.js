@@ -2,7 +2,7 @@ kaboom({
     font: "sinko",
     background: [ 0, 0, 1, ],
 });
-loadSprite('bg', 'sprites/background.png')
+
 loadSprite('mark', 'sprites/Skeleton Idle.png');
 loadSprite('zombie', 'sprites/zombie.png');
 
