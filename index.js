@@ -1,98 +1,180 @@
-kaboom();
-
-// kaboom({
-//     width: 320,
-//     height: 240,
-//     font: "sinko",
-//     background: [0, 0, 255,],
-// });
-
+kaboom({
+    font: "sinko",
+    background: [ 0, 0, 1, ],
+});
 loadSprite('bg', 'sprites/background.png')
-loadSprite('mark', 'sprites/player.png');
+loadSprite('mark', 'sprites/Skeleton Idle.png');
 loadSprite('zombie', 'sprites/zombie.png');
 
-// const player = add([
-//     sprite('player'),
-//     pos(120, 80),
-//     area(),
-//     body(),
-// ])
+loadSpriteAtlas("sprites/elf_spritesheet.png", {
+    "player": {
+        x: 0,
+        y: 0,
+        width: 144,
+        height: 72,
+        sliceX: 8,
+        sliceY: 4,
+        anims: {
+            idle_front: { from: 0, to: 0 },
+            idle_back: { from: 12, to: 12 },
+            idle_right: { from: 20, to: 20 },
+            idle_left: { from: 28, to: 28 },
+            walk_front: { from: 0, to: 7 },
+            walk_back: { from: 8, to: 15 },
+            walk_right: { from: 16, to: 23 },
+            walk_left: { from: 24, to: 31 },
+        },
+    },
+})
 
-// keyPress("space", () => {
-//     player.jump();
-// })
+loadSpriteAtlas("sprites/Skeleton Idle.png", {
+    "skeleton": {
+        x: 0,
+        y: 0,
+        width: 264,
+        height: 32,
+        sliceX: 11,
+        anims: {
+            idle: { from: 0, to: 10 },
+        },
+    },
+})
+
+loadSpriteAtlas("sprites/TX Plant.png", {
+    "bigTree": {
+        x: 0,
+        y: 0,
+        width: 512,
+        height: 512,
+        sliceX: 3.5,
+        sliceY: 3,
+    },
+})
+
+loadSpriteAtlas("sprites/TX Plant.png", {
+    "bushes": {
+        x: 80,
+        y: 160,
+        width: 512,
+        height: 512,
+        // sliceX: 6,
+    },
+})
+
 
 scene("game", () => {
-    add([
-        sprite("bg", { width: width(), height: height() })
-    ]);
 
-    add([
-        pos(0, height() - 20),
-        rect(width(), 40),
-        outline(4),
-        opacity(0),
+    const MOVE_SPEED = 2000;
+    
+    const player = add([
+        sprite("player"),
+        scale(7),
+        pos(width() / 2, height() / 2),
         area(),
         solid(),
     ]);
 
-
-
-    // function produceMoon() {
-    //     const moon_posi = randi(height() / 2, height() / 4)
-    //     add([
-    //         sprite("moon"),
-    //         pos(width(), moon_posi),
-    //         area(),
-    //         "moon",
-    //     ])
-    // }
-
-    function producezombie() {
-        add([
-            sprite("zombie", { flipX: true }),
-            scale(.1),
-            pos(width() - 20, height() - 75),
-            area(),
-            "zombie",
-        ])
-    }
-
-    // loop(3, () => {
-    //     produceMoon();
-    // })
-
-    loop(5, () => {
-        producezombie();
-    })
-
-    // action("moon", (moon) => {
-    //     moon.move(-500, 0)
-    // });
-
-    action("zombie", (zombie) => {
-        zombie.move(-300, 0)
-    });
-
-    const player = add([
-        sprite("mark"),
-        scale(1),
-        pos(80, 40),
+    const skeleton_1 = add([
+        sprite("skeleton"),
+        pos(50, height()/20),
+        scale(10),
         area(),
-        body(),
+        "skeleton",
+        solid(),
+    ])
+
+    const skeleton_2 = add([
+        sprite("skeleton", {flipX: true}),
+        pos(width()-300, height()/20),
+        scale(10),
+        area(),
+        "skeleton",
+        solid(),
+    ])
+
+    const big_tree = add([
+        sprite("bigTree"),
+        pos(-70, height()-550),
+        scale(3),
+    ])
+
+    add([
+        pos(135, height()-150),
+        rect(70, 70),
+        outline(4),
+        opacity(0),
+        outline(0),
+        area(),
+        solid(),
     ]);
+    // add([
+    //     circle(16),
+    //     pos(-70, height()-550),
+    //     outline(4),
+    //     color(0, 0, 255),
+    //     area(),
+    //     solid(),
+    // ])
 
-    player.collides("moon", () => {
-        go("gameover")
+    player.action(() => {
+        camPos(player.pos)
     })
 
-    player.collides("zombie", () => {
-        go("gameover")
+    loop(1, () => {
+        skeleton_1.play("idle")
+        skeleton_2.play("idle")
     })
 
+    keyRelease("w", () => {
+        player.play("idle_back")
+    })
 
-    keyPress("space", () => {
-        player.jump(900);
+    keyRelease("s", () => {
+        player.play("idle_front")
+    })
+
+    keyRelease("d", () => {
+        player.play("idle_right")
+    })
+
+    keyRelease("a", () => {
+        player.play("idle_left")
+    })
+
+    /// KEY PRESSS
+
+    keyPress("w", () => {
+        player.play("walk_back")
+    })
+
+    keyPress("s", () => {
+        player.play("walk_front")
+    })
+
+    keyPress("d", () => {
+        player.play("walk_right")
+    })
+
+    keyPress("a", () => {
+        player.play("walk_left")
+    })
+
+    /// KEY DOWNN
+
+    keyDown("w", () => {
+        player.move(0, -MOVE_SPEED)
+    })
+
+    keyDown("s", () => {
+        player.move(0, MOVE_SPEED)
+    })
+
+    keyDown("d", () => {
+        player.move(MOVE_SPEED, 0)
+    })
+
+    keyDown("a", () => {
+        player.move(-MOVE_SPEED, 0)
     })
 
 });
