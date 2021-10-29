@@ -3,10 +3,9 @@ kaboom({
     background: [ 0, 0, 1, ],
 });
 
-loadSprite('mark', 'sprites/Skeleton Idle.png');
-loadSprite('zombie', 'sprites/zombie.png');
+loadSprite('mark', '/sprites/Skeleton Idle.png');
 
-loadSpriteAtlas("sprites/elf_spritesheet.png", {
+loadSpriteAtlas("/sprites/elf_spritesheet.png", {
     "player": {
         x: 0,
         y: 0,
@@ -27,7 +26,7 @@ loadSpriteAtlas("sprites/elf_spritesheet.png", {
     },
 })
 
-loadSpriteAtlas("sprites/Skeleton Idle.png", {
+loadSpriteAtlas("/sprites/Skeleton Idle.png", {
     "skeleton": {
         x: 0,
         y: 0,
@@ -40,7 +39,7 @@ loadSpriteAtlas("sprites/Skeleton Idle.png", {
     },
 })
 
-loadSpriteAtlas("sprites/TX Plant.png", {
+loadSpriteAtlas("/sprites/TX Plant.png", {
     "bigTree": {
         x: 0,
         y: 0,
@@ -51,7 +50,7 @@ loadSpriteAtlas("sprites/TX Plant.png", {
     },
 })
 
-loadSpriteAtlas("sprites/TX Plant.png", {
+loadSpriteAtlas("/sprites/TX Plant.png", {
     "bushes": {
         x: 80,
         y: 160,
@@ -64,7 +63,7 @@ loadSpriteAtlas("sprites/TX Plant.png", {
 
 scene("game", () => {
 
-    const MOVE_SPEED = 2000;
+    const MOVE_SPEED = 900;
     
     const player = add([
         sprite("player"),
@@ -107,14 +106,7 @@ scene("game", () => {
         area(),
         solid(),
     ]);
-    // add([
-    //     circle(16),
-    //     pos(-70, height()-550),
-    //     outline(4),
-    //     color(0, 0, 255),
-    //     area(),
-    //     solid(),
-    // ])
+
 
     player.action(() => {
         camPos(player.pos)
