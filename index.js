@@ -39,26 +39,26 @@ loadSpriteAtlas("sprites/Skeleton Idle.png", {
     },
 })
 
-loadSpriteAtlas("/sprites/TX Plant.png", {
-    "bigTree": {
-        x: 0,
-        y: 0,
-        width: 512,
-        height: 512,
-        sliceX: 3.5,
-        sliceY: 3,
-    },
-})
+// loadSpriteAtlas("/sprites/TX Plant.png", {
+//     "bigTree": {
+//         x: 0,
+//         y: 0,
+//         width: 512,
+//         height: 512,
+//         sliceX: 3.5,
+//         sliceY: 3,
+//     },
+// })
 
-loadSpriteAtlas("/sprites/TX Plant.png", {
-    "bushes": {
-        x: 80,
-        y: 160,
-        width: 512,
-        height: 512,
-        // sliceX: 6,
-    },
-})
+// loadSpriteAtlas("/sprites/TX Plant.png", {
+//     "bushes": {
+//         x: 80,
+//         y: 160,
+//         width: 512,
+//         height: 512,
+//         // sliceX: 6,
+//     },
+// })
 
 
 scene("game", () => {
