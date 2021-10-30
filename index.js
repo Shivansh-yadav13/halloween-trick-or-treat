@@ -1,9 +1,11 @@
-// import player from './sprites/elf_spritesheet.png'
-
 kaboom({
     font: "sinko",
     background: [ 0, 0, 1, ],
 });
+
+loadSprite("zombie", "./sprites/zombie.png")
+
+loadSound("evil laugh", "./audio/evil laugh.mp3")
 
 loadSpriteAtlas('./sprites/elf_spritesheet.png', {
     "player": {
@@ -14,14 +16,14 @@ loadSpriteAtlas('./sprites/elf_spritesheet.png', {
         sliceX: 8,
         sliceY: 4,
         anims: {
-            idle_front: { from: 0, to: 0 },
-            idle_back: { from: 12, to: 12 },
-            idle_right: { from: 20, to: 20 },
-            idle_left: { from: 28, to: 28 },
-            walk_front: { from: 0, to: 7 },
-            walk_back: { from: 8, to: 15 },
-            walk_right: { from: 16, to: 23 },
-            walk_left: { from: 24, to: 31 },
+            idle_front: { from: 0, to: 1 },
+            idle_back: { from: 12, to: 13 },
+            idle_right: { from: 20, to: 21 },
+            idle_left: { from: 28, to: 29 },
+            walk_front: { from: 0, to: 7, loop: true },
+            walk_back: { from: 8, to: 15, loop: true },
+            walk_right: { from: 16, to: 23, loop: true },
+            walk_left: { from: 24, to: 31, loop: true },
         },
     },
 })
@@ -56,19 +58,246 @@ loadSpriteAtlas("./sprites/TX Plant.png", {
         y: 160,
         width: 512,
         height: 512,
-        // sliceX: 6,
     },
 })
 
+loadSpriteAtlas("./sprites/TX Door.png", {
+    "door": {
+        x: 0,
+        y: 0,
+        width: 70,
+        height: 135,
+        sliceY: 2,
+        anims: {
+            door_idle: { from: 0, to: 0 },
+            door_open: {from: 0, to: 1},
+        },
+    },
+})
+
+scene("gameover", () => {
+
+    add([
+        text("Game Over"),
+        scale(15),
+        pos(width()/4-100,height()/4)
+    ]);
+
+    add([
+        text("press 'space' key to play again."),
+        scale(5),
+        pos(width()/4-200,height()/2)
+    ]);
+
+    keyPress("space", () => {
+        go("game")
+    })
+
+    const music = play("evil laugh", {
+        volume: 0.1,
+    });
+
+});
+
+scene("gamewinner", () => {
+
+    add([
+        text("You Found the Candy!"),
+        scale(10),
+        pos(width()/4-300,height()/4)
+    ]);
+
+    add([
+        text("press 'space' key to play again."),
+        scale(5),
+        pos(width()/4-200,height()/2)
+    ]);
+
+    keyPress("space", () => {
+        go("game")
+    })
+
+    const music = play("evil laugh", {
+        volume: 0.1,
+    });
+
+});
 
 scene("game", () => {
 
-    const MOVE_SPEED = 900;
+    const win_num = randi(1, 4);
+    const MOVE_SPEED = 500;
+
+    if (win_num === 3) {
+        const zombie_1 = add([
+            sprite("zombie"),
+            pos(450, 160),
+            scale(.5),
+            area(),
+            solid(),
+            "zombie"
+        ])
+
+        const door_1 = add([
+            sprite("door"),
+            pos(300, 0),
+            scale(6),
+            area(),
+            solid(),
+            "door"
+        ])
+
+        const zombie_2 = add([
+            sprite("zombie"),
+            pos(900, 160),
+            scale(.5),
+            area(),
+            solid(),
+            "zombie"
+        ])
+
+        const door_2 = add([
+            sprite("door"),
+            pos(750, 0),
+            scale(6),
+            area(),
+            solid(),
+            "door"
+        ])
+
+        const zombie_3 = add([
+            sprite("zombie"),
+            pos(1350, 160),
+            scale(.5),
+            area(),
+            solid(),
+            "zombie"
+        ])
+
+        const door_3 = add([
+            sprite("door"),
+            pos(1200, 0),
+            scale(6),
+            area(),
+            solid(),
+            "door_win"
+        ])
+
+    } else if (win_num === 2) {
+        const zombie_1 = add([
+            sprite("zombie"),
+            pos(450, 160),
+            scale(.5),
+            area(),
+            solid(),
+            "zombie"
+        ])
+
+        const door_1 = add([
+            sprite("door"),
+            pos(300, 0),
+            scale(6),
+            area(),
+            solid(),
+            "door"
+        ])
+
+        const zombie_2 = add([
+            sprite("zombie"),
+            pos(900, 160),
+            scale(.5),
+            area(),
+            solid(),
+            "zombie"
+        ])
+
+        const door_2 = add([
+            sprite("door"),
+            pos(750, 0),
+            scale(6),
+            area(),
+            solid(),
+            "door_win"
+        ])
+
+        const zombie_3 = add([
+            sprite("zombie"),
+            pos(1350, 160),
+            scale(.5),
+            area(),
+            solid(),
+            "zombie"
+        ])
+
+        const door_3 = add([
+            sprite("door"),
+            pos(1200, 0),
+            scale(6),
+            area(),
+            solid(),
+            "door"
+        ])
+    } else {
+        const zombie_1 = add([
+            sprite("zombie"),
+            pos(450, 160),
+            scale(.5),
+            area(),
+            solid(),
+            "zombie"
+        ])
+
+        const door_1 = add([
+            sprite("door"),
+            pos(300, 0),
+            scale(6),
+            area(),
+            solid(),
+            "door_win"
+        ])
+
+        const zombie_2 = add([
+            sprite("zombie"),
+            pos(900, 160),
+            scale(.5),
+            area(),
+            solid(),
+            "zombie"
+        ])
+
+        const door_2 = add([
+            sprite("door"),
+            pos(750, 0),
+            scale(6),
+            area(),
+            solid(),
+            "door"
+        ])
+
+        const zombie_3 = add([
+            sprite("zombie"),
+            pos(1350, 160),
+            scale(.5),
+            area(),
+            solid(),
+            "zombie"
+        ])
+
+        const door_3 = add([
+            sprite("door"),
+            pos(1200, 0),
+            scale(6),
+            area(),
+            solid(),
+            "door"
+        ])
+    }
+
     
     const player = add([
         sprite("player"),
         scale(7),
-        pos(width() / 2, height() / 2),
+        pos(width()/4, height() / 2),
         area(),
         solid(),
     ]);
@@ -91,11 +320,11 @@ scene("game", () => {
         solid(),
     ])
 
-//     const big_tree = add([
-//         sprite("bigTree"),
-//         pos(-70, height()-550),
-//         scale(3),
-//     ])
+    const big_tree = add([
+        sprite("bigTree"),
+        pos(-70, height()-550),
+        scale(3),
+    ])
 
     add([
         pos(135, height()-150),
@@ -108,8 +337,22 @@ scene("game", () => {
     ]);
 
 
-    player.action(() => {
-        camPos(player.pos)
+    // player.action(() => {
+    //     camPos(player.pos)
+    // })
+
+    player.collides("door", (door) => {
+        door.play("door_open");
+        setTimeout(() => {
+            go("gameover")
+        }, 1000);
+    });
+
+    player.collides("door_win", (door) => {
+        door.play("door_open")
+        setTimeout(() => {
+            go("gamewinner")
+        }, 1000);
     })
 
     loop(1, () => {
@@ -169,17 +412,6 @@ scene("game", () => {
         player.move(-MOVE_SPEED, 0)
     })
 
-});
-
-scene("gameover", () => {
-    add([
-        text("Game Over"),
-        scale(.5)
-    ]);
-
-    keyPress("space", () => {
-        go("game")
-    })
 });
 
 go("game")
