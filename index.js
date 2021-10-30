@@ -5,7 +5,7 @@ kaboom({
     background: [ 0, 0, 1, ],
 });
 
-loadSpriteAtlas('sprites/elf_spritesheet.png', {
+loadSpriteAtlas('./sprites/elf_spritesheet.png', {
     "player": {
         x: 0,
         y: 0,
@@ -26,7 +26,7 @@ loadSpriteAtlas('sprites/elf_spritesheet.png', {
     },
 })
 
-loadSpriteAtlas("sprites/Skeleton Idle.png", {
+loadSpriteAtlas("./sprites/Skeleton Idle.png", {
     "skeleton": {
         x: 0,
         y: 0,
@@ -39,26 +39,26 @@ loadSpriteAtlas("sprites/Skeleton Idle.png", {
     },
 })
 
-// loadSpriteAtlas("/sprites/TX Plant.png", {
-//     "bigTree": {
-//         x: 0,
-//         y: 0,
-//         width: 512,
-//         height: 512,
-//         sliceX: 3.5,
-//         sliceY: 3,
-//     },
-// })
+loadSpriteAtlas("./sprites/TX Plant.png", {
+    "bigTree": {
+        x: 0,
+        y: 0,
+        width: 512,
+        height: 512,
+        sliceX: 3.5,
+        sliceY: 3,
+    },
+})
 
-// loadSpriteAtlas("/sprites/TX Plant.png", {
-//     "bushes": {
-//         x: 80,
-//         y: 160,
-//         width: 512,
-//         height: 512,
-//         // sliceX: 6,
-//     },
-// })
+loadSpriteAtlas("./sprites/TX Plant.png", {
+    "bushes": {
+        x: 80,
+        y: 160,
+        width: 512,
+        height: 512,
+        // sliceX: 6,
+    },
+})
 
 
 scene("game", () => {
@@ -91,11 +91,11 @@ scene("game", () => {
         solid(),
     ])
 
-    const big_tree = add([
-        sprite("bigTree"),
-        pos(-70, height()-550),
-        scale(3),
-    ])
+//     const big_tree = add([
+//         sprite("bigTree"),
+//         pos(-70, height()-550),
+//         scale(3),
+//     ])
 
     add([
         pos(135, height()-150),
