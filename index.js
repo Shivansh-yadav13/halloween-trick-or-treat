@@ -1,11 +1,11 @@
+// import player from './sprites/elf_spritesheet.png'
+
 kaboom({
     font: "sinko",
     background: [ 0, 0, 1, ],
 });
 
-loadSprite('mark', '/sprites/Skeleton Idle.png');
-
-loadSpriteAtlas("/sprites/elf_spritesheet.png", {
+loadSpriteAtlas('sprites/elf_spritesheet.png', {
     "player": {
         x: 0,
         y: 0,
@@ -26,7 +26,7 @@ loadSpriteAtlas("/sprites/elf_spritesheet.png", {
     },
 })
 
-loadSpriteAtlas("/sprites/Skeleton Idle.png", {
+loadSpriteAtlas("sprites/Skeleton Idle.png", {
     "skeleton": {
         x: 0,
         y: 0,

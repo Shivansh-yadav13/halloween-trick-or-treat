@@ -1,0 +1,23 @@
+{
+  "name": "halloween_game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shivansh-yadav13/halloween-game.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shivansh-yadav13/halloween-game/issues"
+  },
+  "homepage": "https://github.com/Shivansh-yadav13/halloween-game#readme",
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
+  }
+}
