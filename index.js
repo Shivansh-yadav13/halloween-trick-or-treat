@@ -3,9 +3,10 @@ kaboom({
     background: [ 0, 0, 1, ],
 });
 
-loadSprite("zombie", "./sprites/zombie.png")
-
-loadSound("evil laugh", "./audio/evil laugh.mp3")
+loadSprite("ghost", "./sprites/ghost.png")
+loadSprite("candy", "./sprites/candy.png")
+loadSound("lost", "./audio/lost.mp3")
+loadSound("win", "./audio/win.mp3")
 
 loadSpriteAtlas('./sprites/elf_spritesheet.png', {
     "player": {
@@ -20,10 +21,10 @@ loadSpriteAtlas('./sprites/elf_spritesheet.png', {
             idle_back: { from: 12, to: 13 },
             idle_right: { from: 20, to: 21 },
             idle_left: { from: 28, to: 29 },
-            walk_front: { from: 0, to: 7, loop: true },
-            walk_back: { from: 8, to: 15, loop: true },
-            walk_right: { from: 16, to: 23, loop: true },
-            walk_left: { from: 24, to: 31, loop: true },
+            walk_front: { from: 0, to: 7, loop: true, speed: 10 },
+            walk_back: { from: 8, to: 15, loop: true, speed: 10 },
+            walk_right: { from: 16, to: 23, loop: true, speed: 10 },
+            walk_left: { from: 24, to: 31, loop: true, speed: 10 },
         },
     },
 })
@@ -61,6 +62,76 @@ loadSpriteAtlas("./sprites/TX Plant.png", {
     },
 })
 
+loadSpriteAtlas("./sprites/TX Props.png", {
+    "statue": {
+        x: 70*6,
+        y: 22,
+        width: 70,
+        height: 70,
+    },
+
+    "bench-right": {
+        x: 70*5,
+        y: 100,
+        width: 70,
+        height: 70,
+    },
+
+    "grave": {
+        x: 70*4,
+        y: 20*8,
+        width: 50,
+        height: 70
+    },
+
+    "platform": {
+        x: 70*5,
+        y: 30*9,
+        width: 100,
+        height: 70
+    },
+
+    "biggest-stone": {
+        x: 0,
+        y: 70*6,
+        width: 70,
+        height: 70,
+    },
+
+    "stones": {
+        x: 0,
+        y: 70*7-10,
+        width: 200,
+        height: 70,
+        sliceX: 6,
+        anims: {
+            "stone-smallest": { from: 0, to: 0 },
+            "stone-small": { from: 1, to: 1 },
+            "stone-med": { from: 2, to: 2 },
+            "stone-med-2": { from: 3, to: 3 },
+            "stone-med-3": { from: 4, to: 4 },
+            "stone-big": { from: 5, to: 5 },
+        }
+    },
+
+    "props": {
+        x: 70*2,
+        y: 0,
+        width: 70,
+        height: 70*6,
+        sliceY: 6,
+        anims: {
+            "prop-1": { from: 0, to: 0 },
+            "prop-2": { from: 1, to: 1 },
+            "prop-3": { from: 2, to: 2 },
+            "prop-4": { from: 3, to: 3 },
+            "prop-5": { from: 4, to: 4 },
+            "prop-6": { from: 5, to: 5 },
+        }
+    }
+
+})
+
 loadSpriteAtlas("./sprites/TX Door.png", {
     "door": {
         x: 0,
@@ -73,6 +144,21 @@ loadSpriteAtlas("./sprites/TX Door.png", {
             door_open: {from: 0, to: 1},
         },
     },
+})
+
+loadSpriteAtlas("./sprites/jack.png", {
+    "jack": {
+        x: 0,
+        y: 0,
+        width: 750,
+        height: 250,
+        sliceX: 3,
+        anims: {
+            front: { from: 0, to: 0},
+            back: { from: 1, to: 1 },
+            side: { from: 2, to: 2 }
+        }
+    }
 })
 
 scene("gameover", () => {
@@ -88,15 +174,14 @@ scene("gameover", () => {
         scale(5),
         pos(width()/4-200,height()/2)
     ]);
+    
+    play("lost", {
+        volume: 0.1,
+    });
 
     keyPress("space", () => {
         go("game")
     })
-
-    const music = play("evil laugh", {
-        volume: 0.1,
-    });
-
 });
 
 scene("gamewinner", () => {
@@ -113,29 +198,28 @@ scene("gamewinner", () => {
         pos(width()/4-200,height()/2)
     ]);
 
+    play("win", {
+        volume: 0.2,
+    });
+
     keyPress("space", () => {
         go("game")
     })
-
-    const music = play("evil laugh", {
-        volume: 0.1,
-    });
-
 });
 
 scene("game", () => {
 
-    const win_num = randi(1, 4);
-    const MOVE_SPEED = 500;
+    const win_num = randi(1, 7);
+    const MOVE_SPEED = 300;
 
-    if (win_num === 3) {
-        const zombie_1 = add([
-            sprite("zombie"),
-            pos(450, 160),
+    if (win_num === 3 || win_num === 6) {
+        const ghost_1 = add([
+            sprite("ghost"),
+            pos(400, 120),
             scale(.5),
             area(),
             solid(),
-            "zombie"
+            "ghost"
         ])
 
         const door_1 = add([
@@ -147,13 +231,13 @@ scene("game", () => {
             "door"
         ])
 
-        const zombie_2 = add([
-            sprite("zombie"),
-            pos(900, 160),
+        const ghost_2 = add([
+            sprite("ghost"),
+            pos(850, 120),
             scale(.5),
             area(),
             solid(),
-            "zombie"
+            "ghost"
         ])
 
         const door_2 = add([
@@ -165,13 +249,13 @@ scene("game", () => {
             "door"
         ])
 
-        const zombie_3 = add([
-            sprite("zombie"),
-            pos(1350, 160),
+        const candy_3 = add([
+            sprite("candy"),
+            pos(1350, 120),
             scale(.5),
             area(),
             solid(),
-            "zombie"
+            "candy"
         ])
 
         const door_3 = add([
@@ -183,14 +267,14 @@ scene("game", () => {
             "door_win"
         ])
 
-    } else if (win_num === 2) {
-        const zombie_1 = add([
-            sprite("zombie"),
-            pos(450, 160),
+    } else if (win_num === 2 || win_num === 5) {
+        const ghost_1 = add([
+            sprite("ghost"),
+            pos(400, 120),
             scale(.5),
             area(),
             solid(),
-            "zombie"
+            "ghost"
         ])
 
         const door_1 = add([
@@ -202,13 +286,13 @@ scene("game", () => {
             "door"
         ])
 
-        const zombie_2 = add([
-            sprite("zombie"),
-            pos(900, 160),
+        const candy_2 = add([
+            sprite("candy"),
+            pos(900, 120),
             scale(.5),
             area(),
             solid(),
-            "zombie"
+            "candy"
         ])
 
         const door_2 = add([
@@ -220,13 +304,13 @@ scene("game", () => {
             "door_win"
         ])
 
-        const zombie_3 = add([
-            sprite("zombie"),
-            pos(1350, 160),
+        const ghost_3 = add([
+            sprite("ghost"),
+            pos(1300, 120),
             scale(.5),
             area(),
             solid(),
-            "zombie"
+            "ghost"
         ])
 
         const door_3 = add([
@@ -238,13 +322,13 @@ scene("game", () => {
             "door"
         ])
     } else {
-        const zombie_1 = add([
-            sprite("zombie"),
-            pos(450, 160),
+        const candy_1 = add([
+            sprite("candy"),
+            pos(450, 120),
             scale(.5),
             area(),
             solid(),
-            "zombie"
+            "candy"
         ])
 
         const door_1 = add([
@@ -256,13 +340,13 @@ scene("game", () => {
             "door_win"
         ])
 
-        const zombie_2 = add([
-            sprite("zombie"),
-            pos(900, 160),
+        const ghost_2 = add([
+            sprite("ghost"),
+            pos(850, 120),
             scale(.5),
             area(),
             solid(),
-            "zombie"
+            "ghost"
         ])
 
         const door_2 = add([
@@ -274,13 +358,13 @@ scene("game", () => {
             "door"
         ])
 
-        const zombie_3 = add([
-            sprite("zombie"),
-            pos(1350, 160),
+        const ghost_3 = add([
+            sprite("ghost"),
+            pos(1300, 120),
             scale(.5),
             area(),
             solid(),
-            "zombie"
+            "ghost"
         ])
 
         const door_3 = add([
@@ -293,11 +377,55 @@ scene("game", () => {
         ])
     }
 
+    add([
+        sprite("jack", {anim: "front"}),
+        pos(660, 260),
+        scale(.6),
+        opacity(.6)
+    ]);
+
+    add([
+        sprite("jack", {anim: "front"}),
+        pos(660*1.5+130, 260),
+        scale(.6),
+        opacity(.6)
+    ]);
+
+    add([
+        sprite("grave"),
+        scale(4),
+        area(),
+        solid(),
+        pos(width()-400, height()-250)
+    ]);
+
+    add([
+        sprite("grave"),
+        scale(4),
+        area(),
+        solid(),
+        pos(width()-250, height()-250)
+    ]);
+
+    add([
+        sprite("biggest-stone"),
+        pos(width()-350, height()-450),
+        scale(3),
+        area(),
+        solid()
+    ]);
+
+    add([
+        sprite("platform"),
+        scale(3),
+        pos(width()/4+300, height()-240)
+    ]);
+
     
     const player = add([
         sprite("player"),
         scale(7),
-        pos(width()/4, height() / 2),
+        pos(width()/2-90, height()/2+200),
         area(),
         solid(),
     ]);
@@ -309,7 +437,7 @@ scene("game", () => {
         area(),
         "skeleton",
         solid(),
-    ])
+    ]);
 
     const skeleton_2 = add([
         sprite("skeleton", {flipX: true}),
@@ -318,28 +446,44 @@ scene("game", () => {
         area(),
         "skeleton",
         solid(),
-    ])
-
-    const big_tree = add([
-        sprite("bigTree"),
-        pos(-70, height()-550),
-        scale(3),
-    ])
-
-    add([
-        pos(135, height()-150),
-        rect(70, 70),
-        outline(4),
-        opacity(0),
-        outline(0),
-        area(),
-        solid(),
     ]);
 
+    add([
+        sprite("props", {anim: "prop-3"}),
+        pos(-20 , height()/2-20),
+        scale(4)
+    ]);
 
-    // player.action(() => {
-    //     camPos(player.pos)
-    // })
+    add([
+        sprite("jack", {anim: "side", flipX: true}),
+        pos(120, height()-300),
+        scale(.4),
+        opacity(.7)
+    ]);
+
+    add([
+        sprite("stones", { anim: "stone-smallest" }),
+        pos(170, height()-200),
+        scale(3),
+        area(),
+        solid()
+    ]);
+
+    add([
+        sprite("stones", { anim: "stone-small" }),
+        pos(250, height()-150),
+        scale(2.5),
+        area(),
+        solid()
+    ]);
+
+    add([
+        sprite("bench-right"),
+        pos(-90, height()-270),
+        scale(4),
+        area(),
+        solid()
+    ]);
 
     player.collides("door", (door) => {
         door.play("door_open");
